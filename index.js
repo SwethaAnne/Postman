@@ -1,6 +1,7 @@
 var express = require("express");
 var mongoose = require('mongoose');
 var serviceRouter = require('./routes/index');
+var cors = require('cors');
 
 mongoose.connect("mongodb://localhost/testdb", () => {
     console.log('db connected');
@@ -10,6 +11,7 @@ mongoose.connect("mongodb://localhost/testdb", () => {
 
 var app = express();
 app.use(express.json());
+app.use(cors());
 app.use('/', serviceRouter);
 app.get('/', (req, res) => {
     console.log('Service started');

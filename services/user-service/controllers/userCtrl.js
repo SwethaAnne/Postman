@@ -205,10 +205,64 @@ function getUser(req, res) {
     }
 }
 
+async function login(req, res) {
+
+  try {
+
+    if (!req.body.username) {
+      throw new Error ("Username is required");
+    }
+
+    if (!req.body.password) {
+      throw new Error ("Password is required");
+    }
+
+    userSchema.findOne({
+      username: req.body.username
+    }).then((user) => {
+      console.log(user, 'user');
+      
+      if (user) {
+        var password_true = bcrypt.compareSync(req.body.password, user.password_hash);
+        if (password_true) {
+          return res.status(200).json({
+            success: true,
+            user
+          });
+        } else {
+          return res.status(500).json({
+            success: false,
+            error_message: "Incorrect username/password"
+          })
+        }
+      } else {
+        return res.status(500).json({
+          success: false,
+          error_message: "User not found!"
+        })
+      }
+  }).catch(err => {
+      console.log(err, 'err while fetching user');
+      return res.status(500).json({
+          success: false,
+          error_message: err
+      })
+  })
+
+  } catch (err) {
+    console.log(err, 'err caught');
+    return res.status(500).json({
+      success: false,
+      error_message: err.message
+    });
+  }
+}
+
 module.exports = {
   createUser,
   deleteUser,
   updateUser,
   getAllUsers,
-  getUser
+  getUser,
+  login
 };
