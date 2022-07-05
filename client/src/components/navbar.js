@@ -1,8 +1,10 @@
 import { Route, Link, BrowserRouter as Router, Routes } from "react-router-dom";
-import './register';
+import Login from "./login";
+import Register from "./register";
+import Profile from "./profile";
 var services = require('../services');
 
-function Navbar() {
+function Navbar({isLoggedIn}) {
   return (
     <nav className="navbar navbar-expand-lg bg-dark" style={{height: '10vh'}}>
       <div className="container-fluid">
@@ -22,15 +24,23 @@ function Navbar() {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li className="nav-item">
-                        <Link className="text-white text-decoration-none" to="/">Login</Link>
-                    </li>
-                    <li className="nav-item mx-5">
-                        <Link className="text-white text-decoration-none" to="/register">Register</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="text-white text-decoration-none" to="/profile">Profile</Link>
-                    </li>
+                    {!isLoggedIn && 
+                      <>
+                        <li className="nav-item">
+                          <a className="text-white text-decoration-none" href="/">Login</a>
+                        </li>
+                        <li className="nav-item mx-5">
+                            <a className="text-white text-decoration-none" href="/register">Register</a>
+                        </li>
+                      </>
+                    }
+                    {isLoggedIn && 
+                      <>
+                        <li className="nav-item">
+                          <a className="text-white text-decoration-none" href="/profile">Profile</a>
+                      </li>
+                      </>
+                    }
                 </ul>
         </div>
       </div>

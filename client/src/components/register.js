@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import Navbar from './navbar';
+import { useNavigate } from 'react-router';
 var services = require('../services');
 
 function Register() {
     var [username, setUsername] = useState('');
     var [email, setEmail] = useState('');
     var [password, setPassword] = useState('');
+    var navigate = useNavigate();
     return (
       <div>
-        <Navbar></Navbar>
         <div className="container" style={{height: '80vh', paddingTop: '10vh'}}>
         <div className="row g-0 h-100 d-flex justify-content-center align-items-center">
             <div className="col-6 bg-white shadow-sm rounded p-3">
@@ -34,8 +34,16 @@ function Register() {
                     }} />
                 </div>
                 <div className="text-center mt-3">
-                    <button className="btn btn-success" onClick={() => {
-                        services.register(username, email, password);
+                    <button className="btn btn-success" onClick={async() => {
+                        await services.fetchData('user/create', {username, email, password}, 'POST').then(res => {
+                            if (res.success) {
+                                navigate("/");
+                            } else {
+                                alert(res.error_message);
+                            }
+                        }).catch(err => {
+                            console.log(err, 'err in reg');
+                        });
                     }}>Register</button>
                 </div>
             </div>

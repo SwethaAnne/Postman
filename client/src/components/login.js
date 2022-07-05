@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import Navbar from './navbar';
+import { useNavigate } from 'react-router-dom';
 var services = require('../services');
 
-function Login() {
+function Login({setIsLoggedIn, setProfileUsername, setProfileEmail, setProfileUserId}) {
     var [username, setUsername] = useState('');
     var [password, setPassword] = useState('');
+    var navigate = useNavigate();
     return (
       <div>
-        <Navbar></Navbar>
         <div className="container" style={{height: '80vh', paddingTop: '10vh'}}>
         <div className="row g-0 h-100 d-flex justify-content-center align-items-center">
             <div className="col-6 bg-white shadow-sm rounded p-3">
@@ -28,13 +28,20 @@ function Login() {
                 </div>
                 <div className="text-center mt-3">
                     <button className="btn btn-success" onClick={async() => {
-                            services.login(username, password).then(res => {
-                            console.log(res, 'in login');
-                            alert('Login success');
+                        await services.fetchData('user/login', {username, password}, 'POST').then(res => {
+                            console.log(res, 'inlogin')
+                            if (res.success) {
+                                setIsLoggedIn(true);
+                                setProfileEmail(res.user.email);
+                                setProfileUsername(res.user.username);
+                                setProfileUserId(res.user._id);
+                                navigate('profile');
+                            } else {
+                                alert(res.error_message);
+                            }
                         }).catch(err => {
-                            console.log(err, 'err in login');
-                            alert(err.response.data.error_message);
-                        });
+                            console.log(err, 'err');
+                        })
                     }}>Login</button>
                 </div>
             </div>

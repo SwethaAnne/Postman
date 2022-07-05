@@ -6,6 +6,7 @@ router.get('/', postCtrl.getPost);
 router.post('/create', postCtrl.createPost);
 router.delete('/delete', postCtrl.deletePost);
 router.get('/all', postCtrl.getAllPosts);
+router.get('/all/user', postCtrl.getAllPosts);
 router.put('/update', postCtrl.updatePost);
 
 module.exports = router;

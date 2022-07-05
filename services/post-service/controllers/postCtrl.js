@@ -122,6 +122,33 @@ function updatePost(req, res) {
     }
 }
 
+function getAllPostsByUser(req, res) {
+    
+    try {
+
+        postSchema.find({user_id: req.query.user_id}).then(posts => {
+            console.log(posts, 'posts');
+            return res.status(200).json({
+                success: true,
+                posts
+            })
+        }).catch(err => {
+            console.log(err, 'err while getting posts');
+            return res.status(500).json({
+                success: false,
+                error_message: err
+            })
+        })
+
+    } catch (err) {
+        console.log(err, 'err caught');
+        return res.status(500).json({
+            success: false,
+            error_message: err.message
+        })
+    }
+}
+
 function getAllPosts(req, res) {
     
     try {
@@ -184,6 +211,7 @@ module.exports = {
     createPost,
     deletePost,
     updatePost,
+    getAllPostsByUser,
     getAllPosts,
     getPost
 }

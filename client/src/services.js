@@ -1,22 +1,20 @@
-var axios = require('axios').default;
-var host = 'http://localhost:3999';
-
-async function login(username, password) {
-    const url = host + '/user/login';
-    return axios.post(url, {username, password})
-}
-
-async function register(username, email, password) {
-    const url = host + '/user/create';
-    axios.post(url, {username, email, password}).then(res => {
-        console.log(res, 'created user');
-        return res;
-    }).catch(err => {
-        console.log(err, 'err while creating user');
-    })
+async function fetchData(route, data = {}, methodType) {
+    var options = {
+        method: methodType,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    };
+    if (methodType === 'GET') {
+        delete options['headers'];
+        delete options['body'];
+    }
+    var response = await fetch(`http://localhost:3999/${route}`, options);
+    var res = await response.json();
+    return res;
 }
 
 module.exports = {
-    login,
-    register
+    fetchData
 }

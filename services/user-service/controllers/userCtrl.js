@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 var userSchema = require("../../../schema/User");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 function createUser(req, res) {
   try {
@@ -208,6 +208,8 @@ function getUser(req, res) {
 async function login(req, res) {
 
   try {
+
+    console.log(req.body);
 
     if (!req.body.username) {
       throw new Error ("Username is required");
