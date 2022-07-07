@@ -50,7 +50,7 @@ function Profile({ username, email, userid }) {
               />
             </div>
           </div>
-          <div className="col-12 bg-white p-3">
+          <div className="col-12 my-2 bg-white p-3">
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
@@ -116,6 +116,7 @@ function Profile({ username, email, userid }) {
                 <tr>
                   <th scope="col">Title</th>
                   <th scope="col">Description</th>
+                  <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -123,6 +124,18 @@ function Profile({ username, email, userid }) {
                     return <tr key={post._id}>
                         <td>{post.title}</td>
                         <td>{post.description}</td>
+                        <td><button className="btn btn-danger" onClick={async() => {
+                          await services.fetchData(`post/delete?post_id=${post._id}`, {}, 'DELETE').then(res => {
+                            if (res.success) {
+                              console.log(res);
+                              setPostsCalled(false);
+                            } else {
+                              alert(res.error_message);
+                            }
+                          }).catch(err => {
+                            console.log(err);
+                          })
+                        }}>Delete</button></td>
                     </tr>
                 })}
               </tbody>
