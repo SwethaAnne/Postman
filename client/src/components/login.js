@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-var services = require('../services');
+import fetchData from '../services';
 
 function Login({setIsLoggedIn, setProfileUsername, setProfileEmail, setProfileUserId}) {
     var [username, setUsername] = useState('');
@@ -28,7 +28,7 @@ function Login({setIsLoggedIn, setProfileUsername, setProfileEmail, setProfileUs
                 </div>
                 <div className="text-center mt-3">
                     <button className="btn btn-success" onClick={async() => {
-                        await services.fetchData('user/login', {username, password}, 'POST').then(res => {
+                        await fetchData('user/login', {username, password}, 'POST').then(res => {
                             console.log(res, 'inlogin')
                             if (res.success) {
                                 setIsLoggedIn(true);

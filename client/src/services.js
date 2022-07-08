@@ -10,11 +10,9 @@ async function fetchData(route, data = {}, methodType) {
         delete options['headers'];
         delete options['body'];
     }
-    var response = await fetch(`http://localhost:3999/${route}`, options);
+    var response = await fetch(`${route}`, options);
     var res = await response.json();
     return res;
 }
 
-module.exports = {
-    fetchData
-}
+export default fetchData;

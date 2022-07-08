@@ -1,13 +1,12 @@
 import { useState } from "react";
-var services = require("../services");
+import fetchData from "../services";
 function Profile({ username, email, userid }) {
   var [title, setTitle] = useState("");
   var [desc, setDesc] = useState("");
   var [posts, setPosts] = useState([]);
   var [postsCalled, setPostsCalled] = useState(false);
   if (!postsCalled) {
-    services
-      .fetchData(`post/all/user?user_id=${userid}`, {}, "GET")
+    fetchData(`post/all/user?user_id=${userid}`, {}, "GET")
       .then((res) => {
         console.log(res);
         if (res.success) {
@@ -56,8 +55,7 @@ function Profile({ username, email, userid }) {
                 e.preventDefault();
                 console.log(title, "title");
                 console.log(desc, "desc");
-                await services
-                  .fetchData(
+                await fetchData(
                     "post/create",
                     { title: title, user_id: userid, description: desc },
                     "POST"
@@ -125,7 +123,7 @@ function Profile({ username, email, userid }) {
                         <td>{post.title}</td>
                         <td>{post.description}</td>
                         <td><button className="btn btn-danger" onClick={async() => {
-                          await services.fetchData(`post/delete?post_id=${post._id}`, {}, 'DELETE').then(res => {
+                          await fetchData(`post/delete?post_id=${post._id}`, {}, 'DELETE').then(res => {
                             if (res.success) {
                               console.log(res);
                               setPostsCalled(false);

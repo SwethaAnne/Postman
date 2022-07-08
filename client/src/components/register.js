@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-var services = require('../services');
+import fetchData from '../services';
 
 function Register() {
     var [username, setUsername] = useState('');
@@ -35,8 +35,9 @@ function Register() {
                 </div>
                 <div className="text-center mt-3">
                     <button className="btn btn-success" onClick={async() => {
-                        await services.fetchData('user/create', {username, email, password}, 'POST').then(res => {
+                        await fetchData('user/create', {username, email, password}, 'POST').then(res => {
                             if (res.success) {
+                                alert("Registration success. Please login");
                                 navigate("/");
                             } else {
                                 alert(res.error_message);
