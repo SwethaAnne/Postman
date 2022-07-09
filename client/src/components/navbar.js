@@ -1,10 +1,7 @@
-import { Route, Link, BrowserRouter as Router, Routes } from "react-router-dom";
-import Login from "./login";
-import Register from "./register";
-import Profile from "./profile";
-var services = require('../services');
+import { useNavigate } from 'react-router-dom';
 
 function Navbar({isLoggedIn}) {
+  var navigate = useNavigate();
   return (
     <nav className="navbar navbar-expand-lg bg-dark" style={{height: '10vh'}}>
       <div className="container-fluid">
@@ -27,17 +24,23 @@ function Navbar({isLoggedIn}) {
                     {!isLoggedIn && 
                       <>
                         <li className="nav-item">
-                          <a className="text-white text-decoration-none" href="/">Login</a>
+                          <a className="text-white text-decoration-none" onClick={() => {
+                            navigate("/");
+                          }}>Login</a>
                         </li>
                         <li className="nav-item mx-5">
-                            <a className="text-white text-decoration-none" href="/register">Register</a>
+                            <a className="text-white text-decoration-none" onClick={() => {
+                              navigate("register");
+                            }}>Register</a>
                         </li>
                       </>
                     }
                     {isLoggedIn && 
                       <>
                         <li className="nav-item">
-                          <a className="text-white text-decoration-none" href="/profile">Profile</a>
+                          <a className="text-white text-decoration-none" onClick={() => {
+                            navigate("profile");
+                          }}>Profile</a>
                       </li>
                       </>
                     }

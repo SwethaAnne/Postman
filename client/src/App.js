@@ -14,8 +14,8 @@ function App() {
 
   return (
     <div className="h-100">
-      <Navbar isLoggedIn={isLoggedIn}></Navbar>
       <Router>
+        <Navbar isLoggedIn={isLoggedIn}></Navbar>
         <Routes>
             <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn} setProfileUsername={setProfileUsername} setProfileEmail={setProfileEmail} setProfileUserId={setProfileUserId} />}>
             </Route>
